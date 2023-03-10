@@ -1,0 +1,3 @@
+include 'chat-core'
+include 'assistant-api'
+

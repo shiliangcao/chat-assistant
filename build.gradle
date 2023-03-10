@@ -1,0 +1,37 @@
+buildscript {
+    ext {
+        springBootVersion = "2.5.14"
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id "org.springframework.boot" version "2.5.14"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
+    }
+
+    dependencies {
+        api "com.google.guava:guava:20.0"
+        api "org.projectlombok:lombok:1.18.24"
+        annotationProcessor "org.projectlombok:lombok:1.18.24"
+    }
+}
