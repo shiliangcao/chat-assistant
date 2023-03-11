@@ -1,0 +1,4 @@
+openai:
+  chat:
+    default-model: gpt-3.5-turbo
+    default-max-tokens: 400

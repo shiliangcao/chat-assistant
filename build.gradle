@@ -1,6 +1,7 @@
 buildscript {
     ext {
         springBootVersion = "2.5.14"
+        openaiSdkVersion = "0.11.0"
     }
     repositories {
         google()

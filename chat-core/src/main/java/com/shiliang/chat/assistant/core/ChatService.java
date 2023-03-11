@@ -32,7 +32,6 @@ public class ChatService {
         return chatProviderMap.get(getChatProviderType(chatRequest)).process(chatRequest);
     }
 
-    // TODO
     private void validate(ChatRequest chatRequest) {
         if (chatRequest == null || chatRequest.getChatContext() == null) {
             throw ChatException.builder()
