@@ -1,4 +1,4 @@
-package com.shiliang.chat.assistant.api.controllers.dto;
+package com.shiliang.chat.assistant.core.common.errorhandling;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -3,6 +3,6 @@ package com.shiliang.chat.assistant.core.dto;
 import lombok.Data;
 
 @Data
-public class ChatResponse {
-    private ChatOutput chatOutput;
+public class ChatOutput {
+    private String reply;
 }

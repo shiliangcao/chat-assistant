@@ -1,5 +1,6 @@
-package com.shiliang.chat.assistant.api.controllers.dto;
+package com.shiliang.chat.assistant.core.common;
 
+import com.shiliang.chat.assistant.core.common.errorhandling.ResponseError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

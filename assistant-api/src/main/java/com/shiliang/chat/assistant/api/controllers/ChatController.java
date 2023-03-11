@@ -1,6 +1,6 @@
 package com.shiliang.chat.assistant.api.controllers;
 
-import com.shiliang.chat.assistant.api.controllers.dto.Response;
+import com.shiliang.chat.assistant.core.common.Response;
 import com.shiliang.chat.assistant.core.ChatService;
 import com.shiliang.chat.assistant.core.dto.ChatRequest;
 import com.shiliang.chat.assistant.core.dto.ChatResponse;
