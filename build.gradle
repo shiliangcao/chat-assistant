@@ -34,5 +34,8 @@ subprojects {
         api "com.google.guava:guava:20.0"
         api "org.projectlombok:lombok:1.18.24"
         annotationProcessor "org.projectlombok:lombok:1.18.24"
+
+        implementation "org.apache.commons:commons-lang3:3.12.0"
+
     }
 }

@@ -29,7 +29,14 @@ public class ChatService {
 
     public ChatResponse process(ChatRequest chatRequest) {
         validate(chatRequest);
-        return chatProviderMap.get(getChatProviderType(chatRequest)).process(chatRequest);
+        normalize(chatRequest);
+        return chatProviderMap.get(chatRequest.getChatContext().getChatProviderType()).process(chatRequest);
+    }
+
+    private void normalize(ChatRequest chatRequest) {
+        if (chatRequest.getChatContext().getChatProviderType() == null) {
+            chatRequest.getChatContext().setChatProviderType(ChatProviderType.CHAT_GPT);
+        }
     }
 
     private void validate(ChatRequest chatRequest) {
@@ -41,10 +48,5 @@ public class ChatService {
                             .build())
                     .build();
         }
-    }
-
-    private static ChatProviderType getChatProviderType(ChatRequest chatRequest) {
-        ChatProviderType specifiedType = chatRequest.getChatContext().getChatProviderType();
-        return specifiedType == null ? ChatProviderType.CHAT_GPT : specifiedType;
     }
 }

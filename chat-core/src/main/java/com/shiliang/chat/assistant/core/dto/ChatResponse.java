@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ChatResponse {
+    private ChatContext chatContext;
     private ChatOutput chatOutput;
 }

@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class ChatContext {
     private ChatProviderType chatProviderType;
+    private String conversationId;
 }
