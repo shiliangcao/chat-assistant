@@ -2,4 +2,6 @@ apply plugin: 'org.springframework.boot'
 
 dependencies {
     api project(":chat-core")
+    api "com.slack.api:bolt-socket-mode:${slackSdkVersion}"
+    implementation "org.glassfish.tyrus.bundles:tyrus-standalone-client:${slackSdkTyrusVersion}"
 }

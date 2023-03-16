@@ -20,6 +20,9 @@ public class OpenAiConfiguration {
     @Value("${openai.chat.default-max-tokens}")
     private Integer chatDefaultMaxTokens;
 
+    @Value("${openai.default-timeout-seconds}")
+    private long timeoutSeconds;
+
     @PostConstruct
     public void init() {
         log.info("OpenAiConfiguration: {}", this);

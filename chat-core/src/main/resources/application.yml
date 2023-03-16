@@ -1,4 +1,9 @@
+server:
+  port: 10001
+
 openai:
+  default-timeout-seconds: 30
   chat:
+    name: John Snow
     default-model: gpt-3.5-turbo
     default-max-tokens: 2048

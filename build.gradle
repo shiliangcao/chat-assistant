@@ -2,6 +2,8 @@ buildscript {
     ext {
         springBootVersion = "2.5.14"
         openaiSdkVersion = "0.11.0"
+        slackSdkVersion = "1.28.0"
+        slackSdkTyrusVersion = "1.17"
     }
     repositories {
         google()
