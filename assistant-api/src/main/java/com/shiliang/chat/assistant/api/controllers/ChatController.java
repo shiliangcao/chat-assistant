@@ -4,12 +4,14 @@ import com.shiliang.chat.assistant.core.common.Response;
 import com.shiliang.chat.assistant.core.ChatService;
 import com.shiliang.chat.assistant.core.dto.ChatRequest;
 import com.shiliang.chat.assistant.core.dto.ChatResponse;
+import com.shiliang.chat.assistant.core.providers.chatgpt.ChatGptConversationManager;
+import com.theokanning.openai.completion.chat.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,6 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
 
     private final ChatService chatService;
+    private final ChatGptConversationManager conversationManager;
+
+    @GetMapping("/admin/conversations")
+    public Response<Map<String, List<ChatMessage>>> getActiveConversations() {
+        return Response.ok(conversationManager.getActiveConversations());
+    }
+
     @PostMapping
     public Response<ChatResponse> chat(@RequestBody ChatRequest chatRequest) {
         log.info("ChatRequest: {}", chatRequest);
