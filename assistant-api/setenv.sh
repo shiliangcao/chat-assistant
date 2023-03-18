@@ -1,5 +1,5 @@
 #!/bin/sh
 
-JVM_OPTIONS="-Xmx512m -XX:+UseG1GC"
-
-export JVM_OPTIONS
+export JVM_OPTIONS="\
+    -Xmx512m -XX:+UseG1GC \
+    -Dlogging.config=logback-prod.xml"
