@@ -1,6 +1,7 @@
 FROM alpine:3.17
 
 RUN apk --no-cache add openjdk8-jre
+RUN apk --no-cache add vim
 
 WORKDIR /shiliang/program/bootapp
 
