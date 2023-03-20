@@ -47,12 +47,12 @@ public class ChatGptConversationManager {
     public List<ChatMessage> appendNewMessages(String conversationId, List<ChatMessage> newMessages) {
         return conversationCache.asMap().compute(conversationId, (key, existingChatMessages) -> {
             if (existingChatMessages == null) {
-                log.info("Messages appended (new): {}, {}", conversationId, newMessages);
+                log.debug("Messages appended (new): {}, {}", conversationId, newMessages);
                 return newMessages;
             }
             ArrayList<ChatMessage> newChatMessages = Lists.newArrayList(existingChatMessages);
             newChatMessages.addAll(newMessages);
-            log.info("Messages appended (update): {}, {}", conversationId, newChatMessages);
+            log.debug("Messages appended (update): {}, {}", conversationId, newChatMessages);
             return newChatMessages;
         });
     }

@@ -2,7 +2,7 @@ server:
   port: 10001
 
 openai:
-  default-timeout-seconds: 30
+  default-timeout-seconds: 60
   chat:
     name: John Snow
     default-model: gpt-3.5-turbo

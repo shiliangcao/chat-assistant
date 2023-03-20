@@ -12,6 +12,7 @@ import com.slack.api.bolt.App;
 import com.slack.api.bolt.AppConfig;
 import com.slack.api.bolt.context.builtin.EventContext;
 import com.slack.api.bolt.socket_mode.SocketModeApp;
+import com.slack.api.methods.SlackApiException;
 import com.slack.api.methods.request.chat.ChatPostMessageRequest;
 import com.slack.api.methods.response.chat.ChatPostMessageResponse;
 import com.slack.api.model.event.AppMentionEvent;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 @Component
@@ -41,7 +43,7 @@ public class SlackEventProcessor {
         App chatApp = new App(AppConfig.builder().singleTeamBotToken(slackConfiguration.getAppToken()).build());
 
         chatApp.event(AppMentionEvent.class, (payload, ctx) -> {
-            log.info("App mention event payload: {}, context: {}", payload, ctx);
+            log.info("App mention event, text: {}", payload.getEvent().getText());
             CompletableFuture.runAsync(() -> onAppMention(payload, ctx));
             return ctx.ack();
         });
@@ -72,26 +74,39 @@ public class SlackEventProcessor {
     private void onAppMention(EventsApiPayload<AppMentionEvent> eventPayload, EventContext context) {
         AppMentionEvent event = eventPayload.getEvent();
         String slackThreadTs = getSlackMessageThreadId(event);
-        ChatResponse chatGptResponse = chatService.process(ChatRequest.builder()
-                .chatContext(ChatContext.builder()
-                        .conversationId(slackThreadTs)
-                        .build())
-                .chatInput(ChatInput.builder()
-                        .prompt(trimText(event.getText()))
-                        .build())
-                .build());
+        String slackReplyText = null;
+        try {
+            ChatResponse chatGptResponse = chatService.process(ChatRequest.builder()
+                    .chatContext(ChatContext.builder()
+                            .conversationId(slackThreadTs)
+                            .build())
+                    .chatInput(ChatInput.builder()
+                            .prompt(trimText(event.getText()))
+                            .build())
+                    .build());
+            slackReplyText = chatGptResponse.getChatOutput()
+                    .getRawChatGptResult().getChoices().get(0).getMessage().getContent();
+        } catch (Exception e) {
+            log.error("Exception happened when processing chat message", e);
+            slackReplyText = "Error happened when accessing ChatGPT, message: " + e.getMessage() + ", please retry";
+        }
+        reply(slackThreadTs, slackReplyText, event.getChannel());
+    }
 
-
+    private void reply(String slackThreadTs, String slackReplyText, String slackReplyChannel)
+            throws IOException, SlackApiException {
+        log.info("Slack reply, channel: {}, thread: {}, text: {}", slackReplyChannel, slackThreadTs, slackReplyText);
         ChatPostMessageRequest chatRequest = ChatPostMessageRequest.builder()
-                .channel(event.getChannel())
+                .channel(slackReplyChannel)
                 .token(slackConfiguration.getBotOauthToken())
                 .threadTs(slackThreadTs)
-                .text(chatGptResponse.getChatOutput().getRawChatGptResult().getChoices().get(0).getMessage().getContent())
+                .text(slackReplyText)
                 .build();
 
-        log.info("chat request: {}", chatRequest);
         ChatPostMessageResponse response = slackInstance.methods().chatPostMessage(chatRequest);
-        log.info("chat response: {}", response);
+        if (response == null || !response.isOk()) {
+            log.error("failed to reply slack message, response: {}", response);
+        }
     }
 
     private String getSlackMessageThreadId(AppMentionEvent event) {
