@@ -30,6 +30,8 @@ public class ChatController {
     @PostMapping
     public Response<ChatResponse> chat(@RequestBody ChatRequest chatRequest) {
         log.info("ChatRequest: {}", chatRequest);
-        return Response.ok(chatService.process(chatRequest));
+        ChatResponse response = chatService.process(chatRequest);
+        log.info("ChatResponse: {}", response.getChatOutput().getChatHistory());
+        return Response.ok(response);
     }
 }

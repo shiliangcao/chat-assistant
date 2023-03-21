@@ -7,3 +7,8 @@ openai:
     name: John Snow
     default-model: gpt-3.5-turbo
     default-max-tokens: 2048
+
+spring:
+  redis:
+    host: localhost
+    port: 6379
