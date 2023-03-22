@@ -1,6 +1,6 @@
 package com.shiliang.chat.assistant.api.slack;
 
-import com.shiliang.chat.assistant.api.configurations.SlackConfiguration;
+import com.shiliang.chat.assistant.api.slack.configurations.SlackConfiguration;
 import com.shiliang.chat.assistant.core.ChatService;
 import com.shiliang.chat.assistant.core.dto.ChatContext;
 import com.shiliang.chat.assistant.core.dto.ChatInput;
@@ -39,6 +39,10 @@ public class SlackEventProcessor {
     @SneakyThrows
     @PostConstruct
     public void init() {
+        if (!slackConfiguration.isSlackEnabled()) {
+            log.warn("Slack message subscribing will not be start because slack feature is not enabled");
+            return;
+        }
 
         App chatApp = new App(AppConfig.builder().singleTeamBotToken(slackConfiguration.getAppToken()).build());
 
