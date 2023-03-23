@@ -1,7 +1,12 @@
 package com.shiliang.chat.assistant.core.wechat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.shiliang.chat.assistant.core.wechat.configuration.WechatConfiguration;
+import com.shiliang.chat.assistant.core.wechat.dto.WeChatMessage;
+import com.shiliang.chat.assistant.core.wechat.dto.WeChatResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
@@ -30,9 +35,20 @@ public class WechatService {
         return hash.equals(signature);
     }
 
-    // TODO
+    @SneakyThrows
     public String reply(String messageBody) {
-        log.info("Message body: {}", messageBody);
-        return "success";
+
+        ObjectMapper objectMapper = new XmlMapper();
+        WeChatMessage weChatMessage = objectMapper.readValue(messageBody, WeChatMessage.class);
+
+        WeChatResponse weChatResponse = new WeChatResponse();
+        weChatResponse.setToUserName(weChatMessage.getFromUserName());
+        weChatResponse.setFromUserName(weChatMessage.getToUserName());
+        weChatResponse.setCreateTime(System.currentTimeMillis());
+        weChatResponse.setMsgType("text");
+        weChatResponse.setContent(weChatMessage.getContent());
+
+        return objectMapper.writeValueAsString(weChatResponse);
     }
+
 }

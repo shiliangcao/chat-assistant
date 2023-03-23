@@ -7,5 +7,6 @@ dependencies {
     api "org.redisson:redisson-spring-boot-starter:${redissonStarterVersion}"
     api "com.theokanning.openai-gpt3-java:service:${openaiSdkVersion}"
     api "commons-codec:commons-codec:${commonsCodecVersion}"
+    api "com.fasterxml.jackson.dataformat:jackson-dataformat-xml"
 
 }

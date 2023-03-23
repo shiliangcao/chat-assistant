@@ -2,11 +2,13 @@ package com.shiliang.chat.assistant.api.wechat;
 
 import com.shiliang.chat.assistant.core.wechat.WechatService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/wechat")
+@Slf4j
 public class WechatController {
 
     private final static String FAILURE_XML = "<xml>" +
@@ -37,6 +39,9 @@ public class WechatController {
         if (!wechatService.isSignatureValid(signature, timestamp, nonce)) {
             return FAILURE_XML;
         }
-        return wechatService.reply(messageBody);
+        log.info("receive message: {}", messageBody);
+        String reply = wechatService.reply(messageBody);
+        log.info("reply message: {}", reply);
+        return reply;
     }
 }
