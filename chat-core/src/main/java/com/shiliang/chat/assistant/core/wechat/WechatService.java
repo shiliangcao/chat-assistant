@@ -14,12 +14,11 @@ import java.util.Arrays;
 public class WechatService {
     private final WechatConfiguration wechatConfiguration;
 
-    public boolean isSignatureValid(String signature, String timestamp, String nonce, String echoString) {
-        log.info("Params, signature: {}, timestamp: {}, nonce: {}, echoString: {}",
-                signature, timestamp, nonce, echoString);
+    public boolean isSignatureValid(String signature, String timestamp, String nonce) {
+        log.info("Params, signature: {}, timestamp: {}, nonce: {}", signature, timestamp, nonce);
+
         String[] arr = {wechatConfiguration.getToken(), timestamp, nonce};
         Arrays.sort(arr);
-
         StringBuilder sb = new StringBuilder();
         for (String s : arr) {
             sb.append(s);
@@ -29,5 +28,11 @@ public class WechatService {
         log.info("hash: {}", hash);
 
         return hash.equals(signature);
+    }
+
+    // TODO
+    public String reply(String messageBody) {
+        log.info("Message body: {}", messageBody);
+        return "success";
     }
 }
