@@ -6,4 +6,6 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-web"
     api "org.redisson:redisson-spring-boot-starter:${redissonStarterVersion}"
     api "com.theokanning.openai-gpt3-java:service:${openaiSdkVersion}"
+    api "commons-codec:commons-codec:${commonsCodecVersion}"
+
 }

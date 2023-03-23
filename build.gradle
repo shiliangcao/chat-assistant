@@ -5,6 +5,7 @@ buildscript {
         slackSdkVersion = "1.28.0"
         slackSdkTyrusVersion = "1.17"
         redissonStarterVersion = "3.20.0"
+        commonsCodecVersion = "1.15"
     }
     repositories {
         google()
