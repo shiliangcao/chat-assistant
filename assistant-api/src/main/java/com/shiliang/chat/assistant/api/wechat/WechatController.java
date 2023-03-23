@@ -34,10 +34,9 @@ public class WechatController {
                                  @RequestParam("timestamp") String timestamp,
                                  @RequestParam("nonce") String nonce,
                                  @RequestBody String messageBody) {
-        if (wechatService.isSignatureValid(signature, timestamp, nonce)) {
-            return wechatService.reply(messageBody);
-        } else {
+        if (!wechatService.isSignatureValid(signature, timestamp, nonce)) {
             return FAILURE_XML;
         }
+        return wechatService.reply(messageBody);
     }
 }
