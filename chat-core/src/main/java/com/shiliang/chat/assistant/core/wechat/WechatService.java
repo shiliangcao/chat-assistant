@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class WechatService {
     private final WechatConfiguration wechatConfiguration;
 
-    public String validateToken(String signature, String timestamp, String nonce, String echoString) {
+    public boolean isSignatureValid(String signature, String timestamp, String nonce, String echoString) {
         log.info("Params, signature: {}, timestamp: {}, nonce: {}, echoString: {}",
                 signature, timestamp, nonce, echoString);
         String[] arr = {wechatConfiguration.getToken(), timestamp, nonce};
@@ -27,10 +27,7 @@ public class WechatService {
 
         String hash = DigestUtils.sha1Hex(sb.toString());
         log.info("hash: {}", hash);
-        if (hash.equals(signature)) {
-            return echoString;
-        } else {
-            return "Invalid signature";
-        }
+
+        return hash.equals(signature);
     }
 }

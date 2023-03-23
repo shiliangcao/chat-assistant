@@ -16,6 +16,10 @@ public class WechatController {
                                       @RequestParam("timestamp") String timestamp,
                                       @RequestParam("nonce") String nonce,
                                       @RequestParam("echostr") String echoString) {
-        return wechatService.validateToken(signature, timestamp, nonce, echoString);
+        if (wechatService.isSignatureValid(signature, timestamp, nonce, echoString)) {
+            return echoString;
+        } else {
+            return "Invalid signature";
+        }
     }
 }
