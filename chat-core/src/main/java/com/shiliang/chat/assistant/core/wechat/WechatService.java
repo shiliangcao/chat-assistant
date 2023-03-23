@@ -15,6 +15,8 @@ public class WechatService {
     private final WechatConfiguration wechatConfiguration;
 
     public String validateToken(String signature, String timestamp, String nonce, String echoString) {
+        log.info("Params, signature: {}, timestamp: {}, nonce: {}, echoString: {}",
+                signature, timestamp, nonce, echoString);
         String[] arr = {wechatConfiguration.getToken(), timestamp, nonce};
         Arrays.sort(arr);
 
