@@ -8,6 +8,7 @@ services:
       - openai.api-key=YOUR_OPEN_AI_API_KEY
       - slack.app-token=YOUR_SLACK_APP_TOKEN
       - slack.bot-oauth-token=YOUR_SLACK_BOT_OAUTH_TOKEN
+      - wechat.token=YOUR_WECHAT_TOKEN
     ports:
       - "10001:10001"
     depends_on:
