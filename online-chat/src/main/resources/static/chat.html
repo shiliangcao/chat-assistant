@@ -24,6 +24,8 @@
 </div>
 <div id="chat">
     <h2>Order Chat</h2>
+    <div id="displayOrderId"></div>
+    <div id="displayIdentity"></div>
     <div id="messageList"></div>
     <input type="text" id="message" placeholder="Write a message...">
     <button onclick="sendMessage()">Send</button>
@@ -43,6 +45,8 @@
                 console.log('Connected: ' + frame);
                 document.getElementById('login').style.display = 'none';
                 document.getElementById('chat').style.display = 'block';
+                document.getElementById('displayOrderId').innerText = 'Order ID: ' + orderId;
+            document.getElementById('displayIdentity').innerText = 'Identity: ' + identity;
                 stompClient.subscribe('/topic/orders/' + orderId, function (chatMessage) {
                     showChatMessage(JSON.parse(chatMessage.body));
                 });
