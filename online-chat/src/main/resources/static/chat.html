@@ -29,6 +29,7 @@
     <div id="messageList"></div>
     <input type="text" id="message" placeholder="Write a message...">
     <button onclick="sendMessage()">Send</button>
+    <button onclick="leaveChat()">Leave Chat</button>
 </div>
 <script type="text/javascript">
     var stompClient = null;
@@ -83,6 +84,19 @@
         console.log("Disconnected");
         document.getElementById('login').style.display = 'block';
         document.getElementById('chat').style.display = 'none';
+    }
+
+    function leaveChat() {
+        if(stompClient && orderId && identity) {
+            var leaveMessage = { orderId: orderId, from: identity, text: identity + " has left the chat." };
+            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(leaveMessage));
+            stompClient.disconnect(function() { console.log("Disconnected"); }, {});
+            alert(identity + ' left the chat.');
+        }
+
+        document.getElementById('chat').style.display = 'none';
+        document.getElementById('login').style.display = 'block';
+        document.getElementById('messageList').innerHTML = '';
     }
 </script>
 </body>
