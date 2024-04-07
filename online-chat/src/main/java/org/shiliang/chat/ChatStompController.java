@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 public class ChatStompController {
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final ChatHistoryManager historyManager;
 
     @MessageMapping("/chat.sendMessage")
     public void sendMessage(@Payload ChatMessage chatMessage) {
@@ -21,9 +22,10 @@ public class ChatStompController {
         log.info("message: {}", chatMessage);
 
         // 根据订单ID动态构建目的地路径
-        String destination = "/topic/orders/" + chatMessage.getOrderId();
+        String destination = Constants.TOPIC_ORDERS + chatMessage.getOrderId();
 
         // 使用messagingTemplate广播消息
         messagingTemplate.convertAndSend(destination, chatMessage);
+        historyManager.recordMessage(destination, chatMessage);
     }
 }
