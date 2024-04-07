@@ -13,18 +13,17 @@
                 document.getElementById('login').style.display = 'none';
                 document.getElementById('chat').style.display = 'block';
                 document.getElementById('displayOrderId').innerText = 'Order ID: ' + orderId;
-            document.getElementById('displayIdentity').innerText = 'Identity: ' + identity;
+                document.getElementById('displayIdentity').innerText = 'Identity: ' + identity;
                 stompClient.subscribe('/topic/orders/' + orderId, function (chatMessage) {
                     showChatMessage(JSON.parse(chatMessage.body));
-                });
+                }, {'identity': identity});
             });
         } else {
             alert("Order ID and Identity are required");
         }
     }
 
-    function sendMessage() {
-        var messageContent = document.getElementById('message').value;
+    function sendMessageWithContent(messageContent) {
         if(messageContent && stompClient) {
             var chatMessage = {
                 orderId: orderId,
@@ -34,6 +33,11 @@
             stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
             document.getElementById('message').value = '';
         }
+    }
+
+    function sendMessage() {
+        var messageContent = document.getElementById('message').value;
+        sendMessageWithContent(messageContent)
     }
 
     function showChatMessage(message) {
