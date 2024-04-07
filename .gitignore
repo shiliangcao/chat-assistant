@@ -25,3 +25,4 @@ hs_err_pid*
 /.gradle/
 /assistant-api/build/
 /chat-core/build/
+/online-chat/build/
