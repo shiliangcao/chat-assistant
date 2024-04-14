@@ -8,20 +8,47 @@
         #chat {
             display: none;
         }
-        #messageList {
-            height: 300px;
-            overflow-y: scroll;
-            border: 1px solid #ccc;
+        #messageList li {
+            display: flex;
             padding: 5px;
+            margin-bottom: 10px;
+            align-items: center;
         }
         #messageList li {
+            display: flex;
+            align-items: center;
             margin-bottom: 10px;
-            list-style-type: none; /* 去掉列表前的点 */
+        }
+
+        .my-message {
+            justify-content: flex-end;
+        }
+
+        .other-message {
+            justify-content: flex-start;
+        }
+        .system-message {
+            text-align: center;
+            width: 100%;
+            color: #666;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
         }
 
         .message-content {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #f0f0f0;
             display: flex;
             align-items: center;
+        }
+
+        .timestamp {
+            font-size: 12px;
+            color: #999;
+            margin: 5px;
         }
 
         .avatar {
@@ -38,13 +65,6 @@
             border-radius: 5px;
             background-color: #f0f0f0;
         }
-
-        .timestamp {
-            font-size: 12px;
-            color: #999;
-            margin-left: 10px;
-        }
-
     </style>
 </head>
 <body>
