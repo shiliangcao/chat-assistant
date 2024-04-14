@@ -42,7 +42,28 @@
 
     function showChatMessage(message) {
         var messageElement = document.createElement('li');
-        messageElement.appendChild(document.createTextNode(message.from + ": " + message.text));
+        var messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+
+        // 添加头像
+        var avatar = document.createElement('img');
+        avatar.className = 'avatar';
+        avatar.src = '/img/customer.png';  // 这里使用默认头像，你可以根据不同的用户设置不同的头像
+        messageContent.appendChild(avatar);
+
+        // 消息文本
+        var text = document.createElement('div');
+        text.className = 'message-text';
+        text.textContent = message.from + ": " + message.text;
+        messageContent.appendChild(text);
+
+        // 时间戳
+        var timestamp = document.createElement('span');
+        timestamp.className = 'timestamp';
+        timestamp.textContent = new Date().toLocaleTimeString();  // 显示当前时间，也可以修改为服务器传回的时间
+        messageContent.appendChild(timestamp);
+
+        messageElement.appendChild(messageContent);
         document.getElementById('messageList').appendChild(messageElement);
         document.getElementById('messageList').scrollTop = document.getElementById('messageList').scrollHeight;
     }
